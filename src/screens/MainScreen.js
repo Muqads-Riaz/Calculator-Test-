@@ -8,11 +8,11 @@ export default function MainScreen() {
     let[inputValue , setInputValue] = useState("")
   let[calculated , setCalculated] = useState(false)
 
-
   let btnValue = (e)=>{
   let val = inputValue;
-  let num = parseInt(e.target.textContent)
-  if(calculated && (typeof num === "number")){
+  let num = e.target.textContent
+  if(calculated && (typeof num == "number")){
+    console.log(typeof num)
     setInputValue("");
     val = ""
   }
@@ -24,12 +24,29 @@ export default function MainScreen() {
     setInputValue(eval(inputValue));
     setCalculated(true);
   }
-
   let clearAll = ()=>{
     setInputValue("")
   }
+  let back = ()=>{
+    setInputValue(inputValue.slice(0 , -1))
+  }
+  let sqrt  = ()=>{
+    if(calculated){
+      setInputValue(Math.sqrt(inputValue).toFixed(5))
+    }else{
+      setInputValue(Math.sqrt(eval(inputValue)).toFixed(5))
+      setCalculated(true);
+    }
+  }
+let per = ()=>{
+  if(calculated){
+    setInputValue(inputValue / 100)
+  }else{
+    setInputValue((eval(inputValue)) / 100)
+    setCalculated(true);
+  }
 
-
+}
   return (
     <div className="parent">
     <div className="main">
@@ -37,6 +54,12 @@ export default function MainScreen() {
      <MyInput value={inputValue} onChange={(e)=>{setInputValue(e.target.value)}} />
    <Grid container>
      <Grid item xs={12} sm={12} md={12} lg={12} >
+     <div style={{margin:"15px" , display:"flex" , justifyContent:"space-between"}}>
+       <MyButton onClick={clearAll} label="clr"/>
+       <MyButton onClick={back}  label="←"/>
+       <MyButton onClick={sqrt}  label="√"/>
+       <MyButton onClick={per} label="%"/>
+     </div>
        <div style={{margin:"15px" , display:"flex" , justifyContent:"space-between"}}>
        <MyButton onClick={(e)=>{btnValue(e)}} label="7"/>
        <MyButton onClick={(e)=>{btnValue(e)}} label="8"/>
@@ -56,10 +79,10 @@ export default function MainScreen() {
      <MyButton onClick={(e)=>{btnValue(e)}} label="-"/>
      </div>
      <div style={{margin:"15px" , display:"flex" , justifyContent:"space-between"}}>
-     <MyButton onClick={clearAll} label="clr"/>
      <MyButton onClick={(e)=>{btnValue(e)}} label="0"/>
-     <MyButton onClick={(e)=>{btnValue(e)}} label="+"/>
+     <MyButton onClick={(e)=>{btnValue(e)}} label="."/>
      <MyButton onClick={calculate} label="="/>
+     <MyButton onClick={(e)=>{btnValue(e)}} label="+"/>
      </div>
      </Grid>
 
