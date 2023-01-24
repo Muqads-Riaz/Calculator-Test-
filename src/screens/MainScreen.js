@@ -16,6 +16,7 @@ export default function MainScreen() {
     setInputValue("");
     val = ""
   }
+  setInputValue("");
   setInputValue(val + e.target.textContent)
   setCalculated(false);
   }
